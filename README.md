@@ -26,17 +26,44 @@ npm install
 
 2) Configure environment variables for the backend
 
-Create `server/.env` and set values. To match the Vite proxy, use `PORT=5051`.
+**Important**: This project uses two environment files for security best practices:
+
+- `.env.example` - Template file (committed to Git) with example values
+- `.env` - Actual configuration file (ignored by Git) with real credentials
+
+**Setup Steps:**
+
+a) Copy the example file to create your local configuration:
+```bash
+# In the project root or server directory
+cp .env.example .env
+```
+
+b) Edit `.env` with your actual database credentials. To match the Vite proxy, use `PORT=5051`.
 
 ```env
-# server/.env
+# .env (your actual configuration - never commit this file)
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=your_password
+DB_PASSWORD=your_actual_password
 DB_NAME=charityevents_db
 DB_PORT=3306
 PORT=5051
 ```
+
+c) Keep `.env.example` updated with any new environment variables (but use placeholder values):
+
+```env
+# .env.example (template file - safe to commit)
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_password_here
+DB_NAME=your_database_name
+DB_PORT=3306
+PORT=5051
+```
+
+**Security Note**: Never commit `.env` files containing real credentials to version control. Always use `.env.example` as a template for team members.
 
 3) Start the backend (choose ONE mode)
 
@@ -112,7 +139,8 @@ demo1/
 │   ├── server.js       # Database-backed server
 │   ├── server-demo.js  # Demo server (mock data, no DB)
 │   ├── event_db.js     # DB connector
-│   └── .env            # Backend environment config
+│   ├── .env            # Backend environment config (local, not committed)
+│   └── .env.example    # Environment template (committed to Git)
 ├── vite.config.ts      # Vite config with dev proxies
 ├── package.json        # Scripts for both front & back
 └── README.md           # Chinese documentation
@@ -170,8 +198,15 @@ server: {
 
 - Database connection fails
   - Verify MySQL service is running and reachable
-  - Check credentials in `server/.env`
+  - Check credentials in `.env` file (not `.env.example`)
   - Ensure schema is imported into `charityevents_db`
+  - Confirm `.env` file exists (copy from `.env.example` if missing)
+
+- Environment configuration issues
+  - Ensure `.env` file exists in the correct directory
+  - Verify all required variables are set in `.env`
+  - Check that `.env` values match your actual database setup
+  - Never use `.env.example` values directly in production
 
 - Images not loading
   - Confirm correct `image_url` paths
