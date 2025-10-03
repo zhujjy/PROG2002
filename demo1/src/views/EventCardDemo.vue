@@ -1,4 +1,4 @@
-﻿<template>
+﻿﻿<template>
   <div class="event-card-demo">
     <!-- Page Header -->
     <div class="demo-header">
