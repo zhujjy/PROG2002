@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+const path = require('path');
 const { initPool } = require('./config/db');
 
 dotenv.config();
@@ -18,6 +19,9 @@ async function bootstrap() {
   app.use(cors());
   app.use(express.json());
   app.use(morgan('dev'));
+
+  // Serve static uploads files
+  app.use('/uploads', express.static(path.join(__dirname, '../../demo1/public/uploads')));
 
   const apiRouter = require('./routes');
   app.use('/api', apiRouter);
